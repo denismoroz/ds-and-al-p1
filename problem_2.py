@@ -58,6 +58,9 @@ def find_files(suffix, path):
        a list of paths
     """
 
+    if path == "" or suffix == "":
+        return []
+
     queue = Queue()
 
     result = []
@@ -82,4 +85,37 @@ def find_files(suffix, path):
 
 
 if __name__ == "__main__":
-    pprint(find_files(sys.argv[1], sys.argv[2]))
+    if len(sys.argv) == 2:
+        pprint(find_files(sys.argv[1], sys.argv[2]))
+    else:
+        base = os.path.join(os.getcwd(),  "testdir")
+
+        # Normal test case
+        pprint(find_files('c', base))
+
+        # ['./testdir/t1.c',
+        #  './testdir/subdir5/a.c',
+        #  './testdir/subdir1/a.c',
+        #  './testdir/subdir3/subsubdir1/b.c']
+
+        # Normal test case 2
+        pprint(find_files('h', base))
+
+        # ['./testdir/t1.h',
+        #  './testdir/subdir5/a.h',
+        #  './testdir/subdir1/a.h',
+        #  '.testdir/subdir3/subsubdir1/b.h']
+
+        # Normal test case 3
+        pprint(find_files('l', base))
+
+        # []
+
+        # Edge case 1
+        pprint(find_files('', base))
+        # []
+
+        # Edge case 2
+        pprint(find_files('c', ''))
+        # []
+
