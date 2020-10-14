@@ -1,4 +1,5 @@
 import unittest
+import sys
 
 
 class Node(object):
@@ -149,4 +150,69 @@ class LRU_CacheTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    if len(sys.argv) == 2 and sys.argv[1] == "tests":
+        del sys.argv[1:]
+        unittest.main()
+    else:
+        print("*" * 80)
+        print("Test case 1")
+        cache = LRU_Cache(5)
+        cache.set(1, 1)
+        cache.set(2, 2)
+        cache.set(3, 3)
+        cache.set(4, 4)
+
+        print(cache.get(1))  # 1
+        print(cache.get(2))  # 2
+
+        print(cache.get(9))  # returns -1 because 9 is not present in the cache
+
+        cache.set(5, 5)
+        cache.set(6, 6)
+
+        print(cache.get(3))  # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
+
+        print("*" * 80)
+        print("Test case 2")
+
+        # Single element in cache
+        cache = LRU_Cache(1)
+        cache.set(1, 1)
+        print(cache.get(1))  # 1
+
+        cache.set(2, 2)
+        print(cache.get(1))  # -1,  1 is popped when 2 is added
+        print(cache.get(2))  # 2
+
+        print("*" * 80)
+        print("Test case 3")
+        # Without pops
+        cache = LRU_Cache(10)
+
+        cache.set(1, 1)
+        cache.set(2, 2)
+        cache.set(3, 3)
+        cache.set(4, 4)
+        cache.set(5, 5)
+        cache.set(6, 6)
+
+        for i in range(1, 7):
+            print(cache.get(i))  # i
+
+        print("*" * 80)
+        print("Edge case 1")
+        # Zero capacity
+        try:
+            cache = LRU_Cache(0)
+        except ValueError as e:
+           print(e)  # Capacity should be provided
+
+        print("*" * 80)
+        print("Edge case 2")
+        # None as capacity
+        try:
+            cache = LRU_Cache(None)
+        except ValueError as e:
+            print(e)  # Capacity should be provided
+
+
