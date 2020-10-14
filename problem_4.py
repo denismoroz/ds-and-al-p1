@@ -1,6 +1,7 @@
 import unittest
 import sys
 
+
 class Group(object):
     def __init__(self, _name):
         self.name = _name
@@ -31,6 +32,12 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
+
+    if user is None or len(user) == 0:
+        return False
+
+    if group is None:
+        return False
 
     if user in group.get_users():
         return True
@@ -68,4 +75,22 @@ if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "tests":
         del sys.argv[1:]
         unittest.main()
+    else:
+        # Prepare Active Directory tree
+        parent = Group("parent")
+        child = Group("child")
+        sub_child = Group("subchild")
+
+        sub_child_user = "sub_child_user"
+        sub_child.add_user(sub_child_user)
+
+        child.add_group(sub_child)
+        parent.add_group(child)
+
+        print("If sub child user in parent group: ", is_user_in_group(sub_child_user, parent))  # True
+        print("If parent user in parent group: ", is_user_in_group("parent", parent))  # False
+        print("If sub_child_user in child group:", is_user_in_group(sub_child_user, child))     # True
+
+        print("If user with empty name in parent group: ", is_user_in_group('', parent))    # False
+        print("If sub_child_user in None group: ", is_user_in_group('', None))  # False
 
