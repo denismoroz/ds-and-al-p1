@@ -39,6 +39,9 @@ class HuffmanTree:
             encode_map[n.char] = path
 
     def encode(self, data):
+        if data is None or len(data) == 0:
+            raise ValueError("Please provide input data")
+
         frequencies = defaultdict(lambda: 0)
         for c in data:
             frequencies[c] += 1
@@ -119,19 +122,56 @@ class HuffmanTreeTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
 
-    a_great_sentence = "The bird is the word"
+    if len(sys.argv) == 2 and sys.argv[1] == "tests":
+        del sys.argv[1:]
+        unittest.main()
+    else:
 
-    print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    print("The content of the data is: {}\n".format(a_great_sentence))
+        print("Test case 1 encoding a single character")
+        res, tree = huffman_encoding("P")
+        print("Encoded string: ", res)
+        print("Decoded String: ", huffman_decoding(res, tree)) # should be P
+        print("*"*80)
 
-    encoded_data, tree = huffman_encoding(a_great_sentence)
+        print("Test case 2 encoding a longer sequence")
+        res, tree = huffman_encoding("Go Go Go!")
+        print("Encoded string: ", res)
+        print("Decoded String: ", huffman_decoding(res, tree))  # should be Go Go Go!
+        print("*" * 80)
 
-    print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-    print("The content of the encoded data is: {}\n".format(encoded_data))
 
-    decoded_data = huffman_decoding(encoded_data, tree)
+        print("Test case 3 task example")
+        res, tree = huffman_encoding("AAAAAAABBBCCCCCCCDDEEEEEE")
+        print("Encoded string: ", res)
+        print("Decoded String: ", huffman_decoding(res, tree))  # should be AAAAAAABBBCCCCCCCDDEEEEEE
+        print("*" * 80)
 
-    print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-    print("The content of the encoded data is: {}\n".format(decoded_data))
+        print("Edge case 1")
+        try:
+            res, tree = huffman_encoding("")
+        except ValueError as e:
+            print(e) # Please provide input string
 
-    unittest.main()
+        print("*" * 80)
+
+        print("Edge case 2")
+        try:
+            res, tree = huffman_encoding(None)
+        except ValueError as e:
+            print(e) # Please provide input string
+        print("*" * 80)
+
+        a_great_sentence = "The bird is the word"
+
+        print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+        print("The content of the data is: {}\n".format(a_great_sentence))
+
+        encoded_data, tree = huffman_encoding(a_great_sentence)
+
+        print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+        print("The content of the encoded data is: {}\n".format(encoded_data))
+
+        decoded_data = huffman_decoding(encoded_data, tree)
+
+        print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+        print("The content of the encoded data is: {}\n".format(decoded_data))

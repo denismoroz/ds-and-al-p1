@@ -1,5 +1,5 @@
 import unittest
-
+import sys
 
 class Group(object):
     def __init__(self, _name):
@@ -65,4 +65,7 @@ class IsUserInGroupTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    if len(sys.argv) == 2 and sys.argv[1] == "tests":
+        del sys.argv[1:]
+        unittest.main()
+
