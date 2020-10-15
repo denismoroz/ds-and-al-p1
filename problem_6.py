@@ -1,4 +1,5 @@
 import unittest
+import sys
 
 
 class Node:
@@ -57,6 +58,10 @@ class LinkedList:
 
 
 def union(llist_1, llist_2):
+
+    if llist_1 is None or llist_2 is None:
+        raise ValueError("Please, provide linked list in parameters")
+
     s = set(llist_1.to_list())
     s2 = set(llist_2.to_list())
 
@@ -68,6 +73,9 @@ def union(llist_1, llist_2):
 
 
 def intersection(llist_1, llist_2):
+    if llist_1 is None or llist_2 is None:
+        raise ValueError("Please, provide linked list in parameters")
+
     set1 = set(llist_1.to_list())
     set2 = set(llist_2.to_list())
 
@@ -109,4 +117,42 @@ class UnionAndIntersectionTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    if len(sys.argv) == 2 and sys.argv[1] == "tests":
+        del sys.argv[1:]
+        unittest.main()
+    else:
+        # Test case 1
+        linked_list_1 = LinkedList().from_list([3, 2, 4, 35, 6, 65, 6, 4, 3, 21])
+        linked_list_2 = LinkedList().from_list([6, 32, 4, 9, 6, 1, 11, 21, 1])
+
+        print(union(linked_list_1, linked_list_2))  # 32 -> 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 9 -> 11 -> 21 ->
+        print(intersection(linked_list_1, linked_list_2))  # 4 -> 21 -> 6 ->
+
+        # Test case 2
+
+        linked_list_3 = LinkedList().from_list([3, 2, 4, 35, 6, 65, 6, 4, 3, 23])
+        linked_list_4 = LinkedList().from_list([1, 7, 8, 9, 11, 21, 1])
+
+        print(union(linked_list_3, linked_list_4))  # 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 ->
+        print(intersection(linked_list_3, linked_list_4))  # No elements
+
+        # Test case 3
+        ll1 = LinkedList.from_list([])
+        ll2 = LinkedList.from_list([3, 4, 5])
+        print(union(ll1, ll2))  # 3 -> 4 -> 5 ->
+        print(intersection(ll1, ll2)) # No elements
+
+        # Edge case 1
+        try:
+            union(None, None)
+        except ValueError as e:
+            print(e)
+
+        # Edge case 2
+        try:
+            intersection(None, None)
+        except ValueError as e:
+            print(e)
+
+
+
