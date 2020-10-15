@@ -1,5 +1,6 @@
 import hashlib
 import unittest
+import sys
 
 from datetime import datetime
 
@@ -30,24 +31,27 @@ class Blockchain:
         self.tail = None
 
     def add(self, data):
+
+        if data is None:
+            raise ValueError("Please provide input data")
+
         b = Block(datetime.now(), data, self.tail.hash if self.tail else None)
 
         if self.tail:
             self.tail.next = b
-            self.tail = b
         else:
             self.root = b
-            self.tail = b
+
+        self.tail = b
 
     def validate(self):
         p = self.root
         previous_hash = None
         while p:
-            current_block_hash = p.calc_hash()
             if previous_hash is not None and previous_hash != p.previous_hash:
                 return False
 
-            previous_hash = current_block_hash
+            previous_hash = p.calc_hash()
             p = p.next
 
         return True
@@ -86,4 +90,33 @@ class BlockchainTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    if len(sys.argv) == 2 and sys.argv[1] == "tests":
+        del sys.argv[1:]
+        unittest.main()
+    else:
+        block_chain = Blockchain()
+        # setup block chain
+        block_chain.add("1")
+        block_chain.add("2")
+        block_chain.add("3")
+
+        print(block_chain.validate())  # True block chain is valid
+
+        # Lets corrupt second element data
+        block_chain.root.next.data = "2.2"
+        print(block_chain.validate())  # False block chain is corrupted
+
+        block_chain.root.next.data = "2"
+        print(block_chain.validate())  # True should be valid
+
+        # Lets corrupt timestamp
+        block_chain.root.next.timestamp = datetime.now()
+        print(block_chain.validate()) # False
+
+        # Edge cases:
+        try:
+            block_chain.add(None)
+        except ValueError as e:
+            print(e)  # Please, provide input data
+
+        block_chain.add("")  # Should be added without any issues, as empty data is a data
