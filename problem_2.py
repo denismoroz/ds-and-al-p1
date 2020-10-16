@@ -70,7 +70,13 @@ def find_files(suffix, path):
     while not queue.is_empty():
         path = queue.pop()
 
-        for f in os.listdir(path):
+        content = []
+        if os.path.isdir(path):
+            content = os.listdir(path)
+        else:
+            content.append(path)
+
+        for f in content:
             if f in ['.', '..']:
                 continue
 
@@ -119,3 +125,6 @@ if __name__ == "__main__":
         pprint(find_files('c', ''))
         # []
 
+        # Edge case 3
+        pprint(find_files('c', os.path.join(base, "t1.c")))
+        # ['./testdir/t1.c', ]

@@ -6,7 +6,7 @@ To make effective solution recursive algorithm was used to iterate over all user
 ### Time and Space complexity
 
 Time depends on a active directory size in worth case there is a need to 
-iterate over all groups and users, so time complexity is O(U*G) U is number of users and 
+iterate over all groups and users, so time complexity is O(U+G) U is number of users and 
 G is number of groups.
 
 Space complexity of this algorithm is proportional to maximum depth of active directory tree. 

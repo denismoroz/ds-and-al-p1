@@ -14,7 +14,7 @@ nodes and collect encoding codes.
 
 ### Complexity
 Building a frequency map: O(N)
-Building a hoffman Tree: O(logN)
+Building a hoffman Tree: O(NlogN), for each element we have to traverse a tree and find appropriate place.
 Encoding a message: using a encoding map: O(N) where N is number of characters in input sequence.
 Decoding message: O(N) where is N is number of bits in encoded sequence.
  
