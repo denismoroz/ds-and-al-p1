@@ -1,3 +1,14 @@
+# Block chain.
+#
+# It is build based on linked list. Each new data that is added to it contains a hash
+# of the previous block plus timestamp. This allows to check block chain blocks for modification.
+#
+# Time and Space complexity
+#
+# Add new data block is O(1) - because used linked list and data is added to tail.
+# Validation - O(n) where is n is number of blocks.
+# It requires O(N*BLOCK_SIZE) space to store blockchain information.
+
 import hashlib
 import unittest
 import sys
@@ -90,33 +101,4 @@ class BlockchainTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2 and sys.argv[1] == "tests":
-        del sys.argv[1:]
-        unittest.main()
-    else:
-        block_chain = Blockchain()
-        # setup block chain
-        block_chain.add("1")
-        block_chain.add("2")
-        block_chain.add("3")
-
-        print(block_chain.validate())  # True block chain is valid
-
-        # Lets corrupt second element data
-        block_chain.root.next.data = "2.2"
-        print(block_chain.validate())  # False block chain is corrupted
-
-        block_chain.root.next.data = "2"
-        print(block_chain.validate())  # True should be valid
-
-        # Lets corrupt timestamp
-        block_chain.root.next.timestamp = datetime.now()
-        print(block_chain.validate()) # False
-
-        # Edge cases:
-        try:
-            block_chain.add(None)
-        except ValueError as e:
-            print(e)  # Please, provide input data
-
-        block_chain.add("")  # Should be added without any issues, as empty data is a data
+    unittest.main()

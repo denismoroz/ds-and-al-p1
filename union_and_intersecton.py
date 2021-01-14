@@ -1,3 +1,18 @@
+# Union and intersection
+#
+# Set data structure was used to implement linked list intersection and union.
+# Linked lists were converted to set and appropriate set operation was called.
+# After that resulting linked list was build from resulting set.
+#
+#  Time and Space complexity
+#
+# Construction intermediate sets: O(n + m) n - number elements in the first
+# list and m number elements in second list. There is a need to go over each element
+# in list and add them to set. Average complexity for adding elements to set is O(1)
+#
+# Intersection as it is based on set: O(min(n, m))
+# Union as it is based on set: O(n+m)
+#
 import unittest
 import sys
 
@@ -117,42 +132,4 @@ class UnionAndIntersectionTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2 and sys.argv[1] == "tests":
-        del sys.argv[1:]
-        unittest.main()
-    else:
-        # Test case 1
-        linked_list_1 = LinkedList().from_list([3, 2, 4, 35, 6, 65, 6, 4, 3, 21])
-        linked_list_2 = LinkedList().from_list([6, 32, 4, 9, 6, 1, 11, 21, 1])
-
-        print(union(linked_list_1, linked_list_2))  # 32 -> 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 9 -> 11 -> 21 ->
-        print(intersection(linked_list_1, linked_list_2))  # 4 -> 21 -> 6 ->
-
-        # Test case 2
-
-        linked_list_3 = LinkedList().from_list([3, 2, 4, 35, 6, 65, 6, 4, 3, 23])
-        linked_list_4 = LinkedList().from_list([1, 7, 8, 9, 11, 21, 1])
-
-        print(union(linked_list_3, linked_list_4))  # 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 ->
-        print(intersection(linked_list_3, linked_list_4))  # No elements
-
-        # Test case 3
-        ll1 = LinkedList.from_list([])
-        ll2 = LinkedList.from_list([3, 4, 5])
-        print(union(ll1, ll2))  # 3 -> 4 -> 5 ->
-        print(intersection(ll1, ll2)) # No elements
-
-        # Edge case 1
-        try:
-            union(None, None)
-        except ValueError as e:
-            print(e)
-
-        # Edge case 2
-        try:
-            intersection(None, None)
-        except ValueError as e:
-            print(e)
-
-
-
+    unittest.main()

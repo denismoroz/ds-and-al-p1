@@ -1,4 +1,22 @@
-import sys
+# Huffman Encoding
+#
+# On the first step to build frequency map of characters dictionary was used.
+# That helped to do that with O(n) complexity. It requires only one time to go
+# through all elements to build a frequency map.
+#
+# One of the main parts while building Huffman tree is to select nodes with the
+# minimal frequency, for this part min heap was used. It allows to retrieve the
+# minimal element with O(1) and extracting minimal element with O(logN) complexity.
+#
+# While building encoding map Breadth First Search to iterate over all Huffman tree
+# nodes and collect encoding codes.
+#
+# Complexity
+# Building a frequency map: O(N)
+# Building a hoffman Tree: O(NlogN), for each element we have to traverse a tree and find appropriate place.
+# Encoding a message: using a encoding map: O(N) where N is number of characters in input sequence.
+# Decoding message: O(N) where is N is number of bits in encoded sequence.
+#
 import unittest
 from collections import defaultdict
 from heapq import heappush, heappop
@@ -121,57 +139,4 @@ class HuffmanTreeTestCase(unittest.TestCase):
 
 
 if __name__ == "__main__":
-
-    if len(sys.argv) == 2 and sys.argv[1] == "tests":
-        del sys.argv[1:]
-        unittest.main()
-    else:
-
-        print("Test case 1 encoding a single character")
-        res, tree = huffman_encoding("P")
-        print("Encoded string: ", res)
-        print("Decoded String: ", huffman_decoding(res, tree)) # should be P
-        print("*"*80)
-
-        print("Test case 2 encoding a longer sequence")
-        res, tree = huffman_encoding("Go Go Go!")
-        print("Encoded string: ", res)
-        print("Decoded String: ", huffman_decoding(res, tree))  # should be Go Go Go!
-        print("*" * 80)
-
-
-        print("Test case 3 task example")
-        res, tree = huffman_encoding("AAAAAAABBBCCCCCCCDDEEEEEE")
-        print("Encoded string: ", res)
-        print("Decoded String: ", huffman_decoding(res, tree))  # should be AAAAAAABBBCCCCCCCDDEEEEEE
-        print("*" * 80)
-
-        print("Edge case 1")
-        try:
-            res, tree = huffman_encoding("")
-        except ValueError as e:
-            print(e) # Please provide input string
-
-        print("*" * 80)
-
-        print("Edge case 2")
-        try:
-            res, tree = huffman_encoding(None)
-        except ValueError as e:
-            print(e) # Please provide input string
-        print("*" * 80)
-
-        a_great_sentence = "The bird is the word"
-
-        print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-        print("The content of the data is: {}\n".format(a_great_sentence))
-
-        encoded_data, tree = huffman_encoding(a_great_sentence)
-
-        print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-        print("The content of the encoded data is: {}\n".format(encoded_data))
-
-        decoded_data = huffman_decoding(encoded_data, tree)
-
-        print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-        print("The content of the encoded data is: {}\n".format(decoded_data))
+    unittest.main()

@@ -1,5 +1,18 @@
+# Active Directory user search
+#
+# To make effective solution recursive algorithm was used to iterate over all users in groups.
+#
+# Time and Space complexity
+#
+# Time depends on a active directory size in worth case there is a need to
+# iterate over all groups and users, so time complexity is O(U+G) U is number of users and
+# G is number of groups.
+#
+# Space complexity of this algorithm is proportional to maximum depth of active directory tree.
+# If each function call takes O(m) space and if the maximum depth of active direcotry tree is 'n'
+# then space complexity would be O(nm). Each call required to save a single stack frame.
+
 import unittest
-import sys
 
 
 class Group(object):
@@ -72,25 +85,5 @@ class IsUserInGroupTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2 and sys.argv[1] == "tests":
-        del sys.argv[1:]
-        unittest.main()
-    else:
-        # Prepare Active Directory tree
-        parent = Group("parent")
-        child = Group("child")
-        sub_child = Group("subchild")
-
-        sub_child_user = "sub_child_user"
-        sub_child.add_user(sub_child_user)
-
-        child.add_group(sub_child)
-        parent.add_group(child)
-
-        print("If sub child user in parent group: ", is_user_in_group(sub_child_user, parent))  # True
-        print("If parent user in parent group: ", is_user_in_group("parent", parent))  # False
-        print("If sub_child_user in child group:", is_user_in_group(sub_child_user, child))     # True
-
-        print("If user with empty name in parent group: ", is_user_in_group('', parent))    # False
-        print("If sub_child_user in None group: ", is_user_in_group('', None))  # False
+    unittest.main()
 
